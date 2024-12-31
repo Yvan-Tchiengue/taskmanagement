@@ -1,6 +1,7 @@
 package com.tony.taskmanagement.services;
 
 import com.tony.taskmanagement.entities.Task;
+import com.tony.taskmanagement.enumerations.TaskStatus; 
 import com.tony.taskmanagement.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

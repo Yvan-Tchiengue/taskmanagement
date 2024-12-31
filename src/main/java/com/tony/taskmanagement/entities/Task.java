@@ -3,6 +3,8 @@ package com.tony.taskmanagement.entities;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.tony.taskmanagement.enumerations.TaskStatus;
+
 @Entity
 public class Task {
 
@@ -22,8 +24,11 @@ public class Task {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     // Getters and Setters
     public Long getId() {
@@ -81,8 +86,4 @@ public class Task {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-}
-
-enum TaskStatus {
-    TO_DO, IN_PROGRESS, DONE
 }

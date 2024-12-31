@@ -2,7 +2,7 @@ package com.tony.taskmanagement.entities;
 
 
 import jakarta.persistence.*;
-
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -17,13 +17,20 @@ public class Project {
     @Lob
     private String description;
     
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Task> tasks;
 
+    @Column(name="created_at", updatable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    
     // Getters and Setters
     public Long getId() {
-        return id;
+    	return id;
     }
+    
 
     public void setId(Long id) {
         this.id = id;
@@ -51,5 +58,21 @@ public class Project {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+    	return createdAt;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+    	this.createdAt = createdAt;
+    }
+    
+    public LocalDateTime getUpdatedAt() {
+    	return updatedAt;
+    }
+    
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+    	this.updatedAt = updatedAt;
     }
 }
