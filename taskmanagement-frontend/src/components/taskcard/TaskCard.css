@@ -1,0 +1,42 @@
+.task-card {
+    background: #fefefe;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.task-card h3 {
+    font-size: 16px;
+    margin: 0 0 10px;
+    color: #444;
+}
+
+.task-card p {
+    font-size: 14px;
+    margin: 0 0 10px;
+    color: #666;
+}
+
+.status {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-to_do {
+    color: #f39c12;
+}
+
+.status-in_progress {
+    color: #3498db;
+}
+
+.status-in_review {
+    color: #9b59b6;
+}
+
+.status-done {
+    color: #2ecc71;
+}
