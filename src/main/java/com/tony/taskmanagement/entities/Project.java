@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Project {
     @Id
@@ -18,6 +20,7 @@ public class Project {
     private String description;
     
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Task> tasks;
 
     @Column(name="created_at", updatable = false)

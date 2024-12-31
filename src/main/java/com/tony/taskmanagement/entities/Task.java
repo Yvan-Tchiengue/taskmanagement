@@ -3,6 +3,7 @@ package com.tony.taskmanagement.entities;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tony.taskmanagement.enumerations.TaskStatus;
 
 @Entity
@@ -17,11 +18,11 @@ public class Task {
     @Lob
     private String description;
     
-    @Enumerated(EnumType.STRING)
-    private TaskStatus status;
+    private String status;
     
     @ManyToOne
     @JoinColumn(name = "project_id")
+    @JsonBackReference
     private Project project;
 
     @Column(name = "created_at", updatable = false)
@@ -55,12 +56,12 @@ public class Task {
         this.description = description;
     }
 
-    public TaskStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
-        this.status = status;
+    public void setStatus(String newStatus) {
+        this.status = newStatus;
     }
 
     public Project getProject() {

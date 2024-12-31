@@ -30,6 +30,13 @@ public class TaskController {
     @PatchMapping("/{taskId}/status")
     public Task updateTaskStatus(@PathVariable Long taskId, @RequestBody Map<String, String> body) {
         String newStatus = body.get("status");
+        
+        //verification que le statut est valide
+        if(newStatus == null || newStatus.isEmpty()) {
+        	throw new IllegalArgumentException("le statut ne peut pas etre vide");
+        }
+        
+        //mise a jour du statut de la tache dans le service
     	return taskService.updateTaskStatus(taskId, newStatus);
     }
 }

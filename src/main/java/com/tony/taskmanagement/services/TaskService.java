@@ -26,7 +26,19 @@ public class TaskService {
     public Task updateTaskStatus(Long taskId, String newStatus) {
         Task task = taskRepository.findById(taskId)
         		                                  .orElseThrow(() -> new RuntimeException("Task not found"));
-        task.setStatus(TaskStatus.valueOf(newStatus));
+        //verifier que le status est valide
+        if(!isValidStatus(newStatus)) {
+        	throw new IllegalArgumentException("Statut invalide");
+        }
+        
+        //mettre a jour le status
+        //task.setStatus(TaskStatus.valueOf(newStatus));
+        task.setStatus(newStatus);
         return taskRepository.save(task);
     }
+
+	private boolean isValidStatus(String status) {
+		// liste des status valide
+		return status.equals("TO_DO") || status.equals("IN_PROGRESS") || status.equals("IN_REVIEW") || status.equals("DONE") ;
+	}
 }

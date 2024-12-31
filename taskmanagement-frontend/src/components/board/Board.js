@@ -7,20 +7,6 @@ import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 function Board() {
     const [tasks, setTasks] = useState([]);
 
-    /*useEffect(() => {
-        // Fetch tasks from the backend
-        axios
-            .get("http://localhost:8080/api/projects")
-            .then(response => {
-                // Flatten tasks from all projects
-                const allTasks = response.data.flatMap(project => project.tasks);
-                setTasks(allTasks);
-            })
-            .catch(error =>
-                console.error("There was an error fetching the tasks!", error)
-            );
-    }, []); */
-
 
     useEffect(() => {
         axios
@@ -38,13 +24,13 @@ function Board() {
         },
 
         IN_PROGRESS:{
-            name: "InProgress",
+            name: "In Progress",
             color: "#ffeeba",
             tasks: tasks.filter((task) => task.status === "IN_PROGRESS"),
         },
 
         IN_REVIEW: {
-            name: "InProgress",
+            name: "In Review",
             color: "#d1ecf1",
             tasks: tasks.filter((task) => task.status === "IN_REVIEW"),
         },
@@ -62,27 +48,32 @@ function Board() {
 
         if (!destination) return; // si l'elelement n'est pas deposé dans une colonne valide
 
-        //je triouve la tache deplacée
-        const movedTask = columns[source.droppableId].tasks[source.index];
+        //je triouve la tache deplacée et son nouveau statut
+        //const movedTask = columns[source.droppableId].tasks[source.index];
+        const movedTask = tasks.find((task) => task.id === result.draggableId);
         const newStatus = destination.droppableId;
 
         //je mets a jour le status de la tache
-        movedTask.status = newStatus;
+        if (movedTask.status !== newStatus){
+            movedTask.status = newStatus;
 
-        //j'envois la mise a jour au backedn
-        axios
-            .patch(`http://localhost:8080/api/tasks/${movedTask.id}/status`, {
-                status: newStatus,
-            })
-            .then((response) => {
-                //je mets a jour l'etat local apres confirmation du backend
-                setTasks((prevTasks) =>
-                    prevTasks.map((task) =>
-                       task.id === movedTask.id ? { ...task, status: newStatus} : task
-                    )
-                );
-            })
-            .catch((error) => console.error("erreur lors de la mise a jour:", error));
+            //j'envois la mise a jour au backend
+            axios
+                .patch(`http://localhost:8080/api/tasks/${movedTask.id}/status`, {
+                    status: newStatus })
+                .then((response) => {
+                    //je mets a jour l'etat local apres confirmation du backend
+                    setTasks((prevTasks) =>
+                        prevTasks.map((task) =>
+                            task.id === movedTask.id ? { ...task, status: newStatus} : task
+                        )
+                    );
+                })
+                .catch((error) => console.error("erreur lors de la mise a jour:", error));
+
+        }
+
+
     };
 
     return (
